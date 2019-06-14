@@ -1,52 +1,134 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.12
+import QtQuick.Layouts 1.3
 
 ApplicationWindow {
+    id: root
     visible: true
-
+    width: 360
+    height: 640
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
-    Column {
-        anchors.centerIn: parent
 
-        RadioButton { text: qsTr("Small") }
-        RadioButton { text: qsTr("Medium");  checked: true }
-        RadioButton { text: qsTr("Large") }
-        Button {
-            width: 120
-            height: 120
-            text: qsTr("Button")
-            highlighted: true
-            Material.accent: Material.Orange
-        }
-        Button {
-            text: qsTr("Button")
-            highlighted: true
-            Material.background: Material.Teal
+    Column{
+        id: grid
+        y: 200
+        height: root.height * .68
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.left: parent.left
+        spacing: 20
 
-        }
-        Pane {
-            width: 120
-            height: 120
-            Material.background: Material.Orange
-            Material.elevation: 6
+        RowLayout{
+            spacing: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                elevation: mouseArea.pressed? 1 : 4
 
-            Label {
-                id: txt
-                text: qsTr("I'm a card!")
-                anchors.centerIn: parent
             }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    txt.text = "SUmon"
-                }
-                onDoubleClicked: {
-                    txt.text = qsTr("I'm a card!")
-                }
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                labelText: qsTr("Add Batch")
+                elevation: mouseArea.pressed? 1 : 4
             }
         }
+        RowLayout{
+            spacing: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                labelText: qsTr("Attendance Graph")
+                elevation: mouseArea.pressed? 1 : 4
+            }
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                labelText: qsTr("Attendance")
+                elevation: mouseArea.pressed? 1 : 4
+            }
+        }
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:1;anchors_height:362;anchors_width:300;anchors_x:0;anchors_y:138}
+}
+ ##^##*/
