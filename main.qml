@@ -12,12 +12,50 @@ ApplicationWindow {
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
-    Loader{
-        anchors.fill: parent
-        id: load
-        source: "qrc:/Dashboard.qml"
-    }
 
+    Column{
+        id: grid
+        y: 200
+        height: root.height * .68
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.left: parent.left
+        spacing: 20
+
+        RowLayout{
+            spacing: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                elevation: mouseArea.pressed? 1 : 4
+
+            }
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                labelText: qsTr("Add Batch")
+                elevation: mouseArea.pressed? 1 : 4
+            }
+        }
+        RowLayout{
+            spacing: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                labelText: qsTr("Attendance Graph")
+                elevation: mouseArea.pressed? 1 : 4
+            }
+            Cardview{
+                width: root.width * .4
+                height: grid.height * .45
+                labelText: qsTr("Attendance")
+                elevation: mouseArea.pressed? 1 : 4
+            }
+        }
+
+    }
 }
 
 

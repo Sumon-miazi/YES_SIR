@@ -2,10 +2,5 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Cardview.qml</file>
-        <file>AddBatchActivity.qml</file>
-        <file>Dashboard.qml</file>
-        <file>AddStudentActivity.qml</file>
-        <file>AllBatchName.qml</file>
-        <file>AttendanceActivity.qml</file>
     </qresource>
 </RCC>
