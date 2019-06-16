@@ -1,11 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include "dao.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+    Dao db;
     QGuiApplication app(argc, argv);
     QQuickStyle::setStyle("Material");
     QQmlApplicationEngine engine;
