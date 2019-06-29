@@ -13,6 +13,7 @@ Rectangle {
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
+
     ToolBar {
         width: parent.width
         RowLayout {
@@ -45,6 +46,7 @@ Rectangle {
         height: 40
         placeholderText: "Enter batch name"
         horizontalAlignment: Text.AlignHCenter
+
     }
 
     Button {
@@ -52,6 +54,10 @@ Rectangle {
         x: 130
         y: 194
         text: qsTr("ADD BATCH")
+        onClicked: {
+            controller.addNewBatch(batchname.text)
+            batchname.text = ""
+        }
     }
 
     ListView {
@@ -60,11 +66,11 @@ Rectangle {
         y: 287
         width: parent.width - 40
         height: 280
+
         model: ListModel {
-            id:list
             ListElement {
                 name: "Grey"
-                colorCode: "red"
+                colorCode: "grey"
             }
 
             ListElement {
@@ -78,36 +84,19 @@ Rectangle {
             }
 
             ListElement {
-                name: "Greeldjasjkdfhakjdhflkajhdfkajsdhn"
+                name: "Green"
                 colorCode: "green"
             }
         }
+
         delegate: Item {
             x: 5
             width: 80
             height: 50
-            Row {
-                spacing: 10
-                id: row1
-                Rectangle {
-                    width: 40
-                    height: 40
-                    radius: 20
-                    color: colorCode
-
-                    MouseArea{
-                        anchors.fill: parent
-                        onPressAndHold: {
-                            list.remove(this)
-                        }
-                    }
-
-                }
-                Text {
-                    text: name
-                    font.bold: true
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+            Text {
+                text: name
+                font.bold: true
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }
