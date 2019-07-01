@@ -49,16 +49,6 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    Button {
-        id: addStudantBtn
-        x: 130
-        y: 514
-        text: qsTr("ADD STUDEN")
-        onClicked: {
-            controller.addNewStudent(studentName.text,rollNo.text,comboBox.currentIndex)
-        }
-    }
-
     TextField {
         id: rollNo
         x: 20
@@ -88,9 +78,17 @@ Rectangle {
                 controller.setBatchList(comboBox)
                 controller.callUpdateSignal();
             }
-
-            onCurrentIndexChanged: {
-                console.log(comboBox.currentText + " changed")
+        }
+        Button {
+            id: addStudantBtn
+            x: 130
+            y: 514
+            text: qsTr("ADD STUDEN")
+            onClicked: {
+                console.log(comboBox.currentText)
+                controller.addNewStudent(studentName.text,rollNo.text,comboBox.currentText)
+                studentName.text = ""
+                rollNo.text = ""
             }
         }
 }

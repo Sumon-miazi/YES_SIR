@@ -12,7 +12,12 @@ public:
     bool addBatch(QString name);
     bool addStudent(QString name,QString roll,int batch);
     bool addAttendance(int studentId,QString date,int presence);
+
     QStringList getAllBatchName();
+    QStringList getAllStudentsNameByBatchId(int batchId);
+
+    int getBatchIdByBatchName(QString batchName);
+    int getStudentIdByStudentName(QString studentName);
 private:
     QSqlDatabase db;
 };

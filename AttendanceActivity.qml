@@ -13,6 +13,7 @@ Rectangle {
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
+
     ToolBar {
         width: parent.width
         RowLayout {
@@ -24,7 +25,8 @@ Rectangle {
                 }
             }
             Label {
-                text: "Taday Date"
+                id: label
+                text: new Date().toLocaleDateString()
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
@@ -43,45 +45,21 @@ Rectangle {
         y: 83
         width: 324
         height: 518
-        model: ListModel {
-            ListElement {
-                name: "Grey"
-                colorCode: "grey"
-            }
-
-            ListElement {
-                name: "Red"
-                colorCode: "red"
-            }
-
-            ListElement {
-                name: "Blue"
-                colorCode: "blue"
-            }
-
-            ListElement {
-                name: "Green"
-                colorCode: "green"
-            }
+        model:["Student", "name"]
+        Component.onCompleted: {
+            controller.setStudentList(listView)
+            controller.callStudentUpdateSignale()
         }
+
         delegate: Item {
             x: 5
             width: parent.width - 40
             height: 40
-            Row {
-                id: row1
-                Rectangle {
-                    width: 40
-                    height: 40
-                    color: colorCode
-                }
-
-                Text {
-                    text: name
-                    font.bold: true
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-                spacing: 10
+            Text {
+                text: modelData
+                font.weight: Font.Thin
+                font.pointSize: 16
+                anchors.verticalCenter: parent.verticalCenter
             }
             MouseArea{
                 anchors.fill: parent

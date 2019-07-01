@@ -12,21 +12,30 @@ class Controller : public QObject
     Q_OBJECT
 
 private:
+    QStringList studentsNameByBatch;
     QObject *batchList;
+    QObject *studentList;
+    Dao *dao;
 public:
     explicit Controller(QObject *parent = nullptr);
-    void putData();
+    void putBatchData();
 
 signals:
     void UpdateBatchList();
+    void UpdateStudentList();
 
 public slots:
     bool callUpdateSignal();
+    void callStudentUpdateSignale();
+
     bool addNewBatch(QString batchName);
-    bool addNewStudent(QString studentName,QString roll,int batchId);
+    bool addNewStudent(QString studentName,QString roll,QString batchName);
     bool addNewAttendance(int studentId,QString date,int presence);
 
+    void getBatchNameForAttendence(QString batchName);
+
     void setBatchList(QObject *obj);
+    void setStudentList(QObject *obj);
 };
 
 #endif // CONTROLLER_H
