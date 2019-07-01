@@ -110,11 +110,11 @@ QStringList Dao::getAllStudentsNameByBatchId(int batchId)
     qDebug() << "batch id = " << batchId ;
     QStringList list;
     QSqlQuery query;
-    query.prepare("SELECT name FROM student WHERE batch_id = ?");
+    query.prepare("SELECT * FROM student WHERE batch_id = ?");
     query.bindValue(0, batchId);
     if(query.exec()){
         while (query.next()){
-            list.append(query.value(0).toString());
+            list.append(query.value(2).toString() + " >> " + query.value(1).toString());
         }
     }
     else{

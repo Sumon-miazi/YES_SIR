@@ -20,8 +20,11 @@ bool Controller::callUpdateSignal()
     return true;
 }
 
-void Controller::callStudentUpdateSignale()
+void Controller::callStudentUpdateSignale(int removeItemIndex)
 {
+    if(removeItemIndex != -1){
+        studentsNameByBatch.removeAt(removeItemIndex);
+    }
     this->studentList->setProperty("model",QVariant(studentsNameByBatch));
 }
 
@@ -50,15 +53,13 @@ bool Controller::addNewStudent(QString studentName, QString roll, QString batchN
     return flag;
 }
 
-bool Controller::addNewAttendance(int studentId, QString date, int presence)
+bool Controller::addNewAttendance(QString studentName, QString date, int presence)
 {
-    if(studentId == 0 or date.isEmpty() or presence == 0)
-        return false;
     bool flag;
- //   Dao *dao = new Dao();
-
-    flag = dao->addAttendance(studentId,date,presence);
- //   delete dao;
+    QStringList list = studentName.split(" >> ");
+    int id = dao->getStudentIdByStudentName(list.value(1));
+    qDebug() << id ;
+    flag = dao->addAttendance(id,date,presence);
     return flag;
 }
 

@@ -39,21 +39,21 @@ Rectangle {
 
     ListView {
         id: listView
-        x: 18
-        y: 83
-        width: 324
+        y: 100
+        width: parent.width
         height: 518
         model: ["batch","name"]
         Component.onCompleted: {
             controller.setBatchList(listView)
             controller.callUpdateSignal()
         }
-        delegate: Item {
-            x: 5
-            width: parent.width - 40
-            height: 60
+        delegate: Rectangle {
+            height: 50
+            width: parent.width
+            color: index % 2 == 0 ? "#e8f0fc" : "white"
             Text {
                 id: batchName
+                padding: 10
                 text: modelData
                 font.weight: Font.Thin
                 font.pointSize: 16

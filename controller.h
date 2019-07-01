@@ -26,11 +26,11 @@ signals:
 
 public slots:
     bool callUpdateSignal();
-    void callStudentUpdateSignale();
+    void callStudentUpdateSignale(int removeItemIndex);
 
     bool addNewBatch(QString batchName);
     bool addNewStudent(QString studentName,QString roll,QString batchName);
-    bool addNewAttendance(int studentId,QString date,int presence);
+    bool addNewAttendance(QString studentName,QString date,int presence);
 
     void getBatchNameForAttendence(QString batchName);
 

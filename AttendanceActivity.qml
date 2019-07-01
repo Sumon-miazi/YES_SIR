@@ -41,31 +41,68 @@ Rectangle {
 
     ListView {
         id: listView
-        x: 18
-        y: 83
-        width: 324
+        y: 100
         height: 518
+        width: parent.width
         model:["Student", "name"]
         Component.onCompleted: {
             controller.setStudentList(listView)
-            controller.callStudentUpdateSignale()
+            controller.callStudentUpdateSignale(-1)
         }
 
-        delegate: Item {
-            x: 5
-            width: parent.width - 40
-            height: 40
+        delegate: Rectangle {
+            width: parent.width
+            height: 50
+            color: index % 2 == 0 ? "#e8f0fc" : "white"
             Text {
+                id:studentName
+                padding: 10
                 text: modelData
                 font.weight: Font.Thin
                 font.pointSize: 16
                 anchors.verticalCenter: parent.verticalCenter
             }
-            MouseArea{
-                anchors.fill: parent
+            Row{
+                spacing: 10
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 10
+                Image {
+                    id: cross
+                    width: 30
+                    height: 30
+                    source: crossMouse.pressed? "qrc:/icon/icons/pressedCross.png" : "qrc:/icon/icons/cross.png"
+                    MouseArea{
+                        id:crossMouse
+                        anchors.fill: parent
+                        onClicked: {
+                            var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()
+                            controller.addNewAttendance(studentName.text,date,0)
+                            controller.callStudentUpdateSignale(listView.currentIndex)
+                        }
+                    }
+                }
+
+                Image {
+                    id: ok
+                    width: 30
+                    height: 30
+                    source: okMouse.pressed? "qrc:/icon/icons/pressedOk.png" : "qrc:/icon/icons/ok.png"
+                    MouseArea{
+                        id:okMouse
+                        anchors.fill: parent
+                        onClicked: {
+                            var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()
+                            console.log(date)
+                            controller.addNewAttendance(studentName.text,date,1)
+                            controller.callStudentUpdateSignale(listView.currentIndex)
+                        }
+                    }
+                }
+
             }
+
         }
     }
-
 
 }
