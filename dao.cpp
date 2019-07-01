@@ -20,6 +20,12 @@ Dao::Dao()
 
 }
 
+Dao::~Dao()
+{
+    db.close();
+
+}
+
 bool Dao::addBatch(QString name)
 {
     bool flag;
@@ -79,4 +85,24 @@ bool Dao::addAttendance(int studentId, QString date, int presence)
             flag = false;
     }
     return flag;
+}
+
+QStringList Dao::getAllBatchName()
+{
+    QStringList list;
+    QSqlQuery query;
+    query.prepare("SELECT * FROM batch");
+    if(query.exec())
+       {
+        while (query.next()) {
+            list.append(query.value(1).toString());
+            qDebug() << query.value(1);
+        }
+            qDebug() << "add Attendance success";
+       }
+       else
+       {
+            qDebug() << "add Attendance error:" ;
+    }
+    return list;
 }

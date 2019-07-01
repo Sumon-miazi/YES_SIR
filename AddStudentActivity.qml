@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Controls 1.4
 import QtQuick.Window 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Controls 2.5
@@ -12,6 +13,7 @@ Rectangle {
     height: 640
     Material.theme: Material.Light
     Material.accent: Material.Purple
+
 
     ToolBar {
         width: parent.width
@@ -52,6 +54,9 @@ Rectangle {
         x: 130
         y: 514
         text: qsTr("ADD STUDEN")
+        onClicked: {
+            controller.addNewStudent(studentName.text,rollNo.text,comboBox.currentIndex)
+        }
     }
 
     TextField {
@@ -72,39 +77,20 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        Rectangle {
-            anchors.top: caption.bottom
-            anchors.topMargin: 6
-            anchors.horizontalCenter: parent.horizontalCenter
-            height: 48
-            width: parent.width - 40
-            color: "black"
-            anchors.horizontalCenterOffset: 0
-            ListView {
-                id: list
-                anchors.fill: parent
-                highlightRangeMode: ListView.StrictlyEnforceRange
-                preferredHighlightBegin: height/3
-                preferredHighlightEnd: height/3
-                clip: true
-                model: 64
-                delegate: Text {
-                    font.pixelSize: 18;
-                    color: "white";
-                    text: index;
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
+        ComboBox {
+            id: comboBox
+            x: 20
+            y: 287
+            width: 320
+            height: 54
+            focusPolicy: Qt.StrongFocus
+            Component.onCompleted:{
+                controller.setBatchList(comboBox)
+                controller.callUpdateSignal();
             }
-            Rectangle {
-                anchors.fill: parent
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "#FF000000" }
-                    GradientStop { position: 0.2; color: "#00000000" }
-                    GradientStop { position: 0.8; color: "#00000000" }
-                    GradientStop { position: 1.0; color: "#FF000000" }
-                }
+
+            onCurrentIndexChanged: {
+                console.log(comboBox.currentText + " changed")
             }
         }
-
-
 }

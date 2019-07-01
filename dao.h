@@ -8,9 +8,11 @@ class Dao
 {
 public:
     Dao();
+    ~Dao();
     bool addBatch(QString name);
     bool addStudent(QString name,QString roll,int batch);
     bool addAttendance(int studentId,QString date,int presence);
+    QStringList getAllBatchName();
 private:
     QSqlDatabase db;
 };

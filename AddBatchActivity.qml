@@ -56,6 +56,7 @@ Rectangle {
         text: qsTr("ADD BATCH")
         onClicked: {
             controller.addNewBatch(batchname.text)
+            controller.callUpdateSignal();
             batchname.text = ""
         }
     }
@@ -67,26 +68,10 @@ Rectangle {
         width: parent.width - 40
         height: 280
 
-        model: ListModel {
-            ListElement {
-                name: "Grey"
-                colorCode: "grey"
-            }
-
-            ListElement {
-                name: "Red"
-                colorCode: "red"
-            }
-
-            ListElement {
-                name: "Blue"
-                colorCode: "blue"
-            }
-
-            ListElement {
-                name: "Green"
-                colorCode: "green"
-            }
+        model: ["asd","asdf"]
+        Component.onCompleted:{
+            controller.setBatchList(listView)
+            controller.callUpdateSignal();
         }
 
         delegate: Item {
@@ -94,8 +79,9 @@ Rectangle {
             width: 80
             height: 50
             Text {
-                text: name
-                font.bold: true
+                text: modelData
+                font.pointSize: 16
+                font.weight: Font.Thin
                 anchors.verticalCenter: parent.verticalCenter
             }
         }

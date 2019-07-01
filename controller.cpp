@@ -2,7 +2,21 @@
 
 Controller::Controller(QObject *parent) : QObject(parent)
 {
-    //connect(this,&Controller::UpdateBatchList(),this,&Controlller::putData);
+    connect(this,&Controller::UpdateBatchList,this,&Controller::putData);
+}
+
+void Controller::putData()
+{
+    Dao *dao = new Dao();
+    QStringList list = dao->getAllBatchName();
+    this->batchList->setProperty("model",QVariant(list));
+    delete dao;
+}
+
+bool Controller::callUpdateSignal()
+{
+    emit UpdateBatchList();
+    return true;
 }
 
 bool Controller::addNewBatch(QString batchName)
@@ -20,6 +34,7 @@ bool Controller::addNewBatch(QString batchName)
     map.insert("name","sumon");
     map.insert("name","sumon");
     batchList->setProperty("name",map);
+    delete dao;
     return flag;
 }
 
@@ -31,7 +46,7 @@ bool Controller::addNewStudent(QString studentName, QString roll, int batchId)
     Dao *dao = new Dao();
 
     flag = dao->addStudent(studentName,roll,batchId);
-
+    delete dao;
     return flag;
 }
 
@@ -43,7 +58,7 @@ bool Controller::addNewAttendance(int studentId, QString date, int presence)
     Dao *dao = new Dao();
 
     flag = dao->addAttendance(studentId,date,presence);
-
+    delete dao;
     return flag;
 }
 
