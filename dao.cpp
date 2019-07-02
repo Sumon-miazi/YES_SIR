@@ -102,6 +102,20 @@ bool Dao::deleteBatchByName(QString batchName)
     return flag;
 }
 
+bool Dao::deleteStudentByName(QString studentName)
+{
+    QSqlQuery query;
+    query.exec("PRAGMA foreign_keys = ON");
+    query.prepare("DELETE FROM student WHERE(name = ?)");
+    query.bindValue(0, studentName);
+    bool flag = query.exec();
+    if(!flag){
+       qDebug() << "error";
+    }
+
+    return flag;
+}
+
 QStringList Dao::getAllBatchName()
 {
     QStringList list;

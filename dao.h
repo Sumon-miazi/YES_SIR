@@ -14,6 +14,7 @@ public:
     bool addAttendance(int studentId,QString date,int presence);
 
     bool deleteBatchByName(QString batchName);
+    bool deleteStudentByName(QString studentName);
 
     QStringList getAllBatchName();
     QStringList getAllStudentsNameByBatchId(int batchId);

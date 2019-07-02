@@ -38,32 +38,10 @@ Rectangle {
         }
     }
 
-    TextField {
-        id: batchname
-        x: 20
-        y: 98
-        width: parent.width - 40
-        height: 40
-        placeholderText: "Enter batch name"
-        horizontalAlignment: Text.AlignHCenter
-
-    }
-
-    Button {
-        id: button
-        x: 130
-        y: 194
-        text: qsTr("ADD BATCH")
-        onClicked: {
-            controller.addNewBatch(batchname.text)
-            controller.callUpdateSignal();
-            batchname.text = ""
-        }
-    }
-
     ListView {
         id: listView
-        y: 287
+        x: 0
+        y: 102
         width: parent.width
         height: 280
 
@@ -79,7 +57,7 @@ Rectangle {
             color: index % 2 == 0 ? "#e8f0fc" : "white"
             Text {
                 id:batchName
-                padding: 10
+                leftPadding: 20
                 text: modelData
                 font.weight: Font.Thin
                 font.pointSize: 16
@@ -91,7 +69,7 @@ Rectangle {
                 height: 30
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 source: crossMouse.pressed? "qrc:/icon/icons/pressedDelete.png" : "qrc:/icon/icons/delete.png"
                 MouseArea{
                     id:crossMouse
@@ -105,5 +83,42 @@ Rectangle {
         }
     }
 
+    Pane {
+        y: 439
+        id: customBg
+        x: 20
+        Material.background: Material.White
+        Material.elevation: 2
+        //anchors.fill: parent
+        width: parent.width - 40
+        height: 180
+
+        Column{
+            id: column
+            anchors.centerIn: parent
+            spacing: 16
+            TextField {
+                id: batchname
+                width: customBg.width - 20
+                height: 40
+                placeholderText: "Enter batch name"
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Button {
+                id: button
+                text: qsTr("ADD BATCH")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    controller.addNewBatch(batchname.text)
+                    controller.callUpdateSignal();
+                    batchname.text = ""
+                }
+            }
+        }
+
+
+    }
 
 }

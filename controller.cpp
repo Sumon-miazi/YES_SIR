@@ -77,6 +77,13 @@ void Controller::deleteBatchByName(QString batchName)
     dao->deleteBatchByName(batchName);
 }
 
+void Controller::deleteStudentByName(QString studentName)
+{
+    QStringList list = studentName.split(" >> ");
+    dao->deleteStudentByName(list.value(1));
+    qDebug() << list.value(1);
+}
+
 void Controller::setBatchList(QObject *obj)
 {
     this->batchList = obj;
