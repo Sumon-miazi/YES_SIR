@@ -10,8 +10,8 @@ Dao::Dao()
        QSqlQuery query;
 
        query.exec("CREATE TABLE IF NOT EXISTS batch(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
-       query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,roll TEXT,batch_id INTEGER,FOREIGN KEY(batch_id) REFERENCES batch(id))");
-       query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,student_id INTEGER,date TEXT,presence INT,FOREIGN KEY(student_id) REFERENCES student(id))");
+       query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,roll TEXT,batch_id INTEGER,FOREIGN KEY(batch_id) REFERENCES batch(id)  ON DELETE CASCADE ON UPDATE CASCADE)");
+       query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,student_id INTEGER,date TEXT,presence INT,FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE ON UPDATE CASCADE)");
 
     }
     else {
@@ -85,6 +85,20 @@ bool Dao::addAttendance(int studentId, QString date, int presence)
             qDebug() << "add Attendance error:" ;
             flag = false;
     }
+    return flag;
+}
+
+bool Dao::deleteBatchByName(QString batchName)
+{
+    QSqlQuery query;
+    query.exec("PRAGMA foreign_keys = ON");
+    query.prepare("DELETE FROM batch WHERE(name = ?)");
+    query.bindValue(0, batchName);
+    bool flag = query.exec();
+    if(!flag){
+       qDebug() << "error";
+    }
+
     return flag;
 }
 

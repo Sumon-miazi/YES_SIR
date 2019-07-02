@@ -69,7 +69,12 @@ void Controller::getBatchNameForAttendence(QString batchName)
     qDebug() << "Batch name " << batchName;
     studentsNameByBatch = dao->getAllStudentsNameByBatchId(dao->getBatchIdByBatchName(batchName));
  //   qDebug() << List;
-   // this->studentList->setProperty("model",QVariant(List));
+    // this->studentList->setProperty("model",QVariant(List));
+}
+
+void Controller::deleteBatchByName(QString batchName)
+{
+    dao->deleteBatchByName(batchName);
 }
 
 void Controller::setBatchList(QObject *obj)

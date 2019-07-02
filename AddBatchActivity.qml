@@ -63,9 +63,8 @@ Rectangle {
 
     ListView {
         id: listView
-        x: 20
         y: 287
-        width: parent.width - 40
+        width: parent.width
         height: 280
 
         model: ["asd","asdf"]
@@ -74,15 +73,34 @@ Rectangle {
             controller.callUpdateSignal();
         }
 
-        delegate: Item {
-            x: 5
-            width: 80
+        delegate: Rectangle {
+            width: parent.width
             height: 50
+            color: index % 2 == 0 ? "#e8f0fc" : "white"
             Text {
+                id:batchName
+                padding: 10
                 text: modelData
-                font.pointSize: 16
                 font.weight: Font.Thin
+                font.pointSize: 16
                 anchors.verticalCenter: parent.verticalCenter
+            }
+            Image {
+                id: cross
+                width: 30
+                height: 30
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 10
+                source: crossMouse.pressed? "qrc:/icon/icons/pressedDelete.png" : "qrc:/icon/icons/delete.png"
+                MouseArea{
+                    id:crossMouse
+                    anchors.fill: parent
+                    onClicked: {
+                        controller.deleteBatchByName(batchName.text)
+                        controller.callUpdateSignal()
+                    }
+                }
             }
         }
     }

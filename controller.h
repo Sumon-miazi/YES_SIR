@@ -34,6 +34,8 @@ public slots:
 
     void getBatchNameForAttendence(QString batchName);
 
+    void deleteBatchByName(QString batchName);
+
     void setBatchList(QObject *obj);
     void setStudentList(QObject *obj);
 };

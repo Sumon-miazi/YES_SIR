@@ -13,6 +13,8 @@ public:
     bool addStudent(QString name,QString roll,int batch);
     bool addAttendance(int studentId,QString date,int presence);
 
+    bool deleteBatchByName(QString batchName);
+
     QStringList getAllBatchName();
     QStringList getAllStudentsNameByBatchId(int batchId);
 

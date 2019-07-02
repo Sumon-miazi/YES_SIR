@@ -6,6 +6,8 @@
         <file>icons/ok.png</file>
         <file>icons/pressedCross.png</file>
         <file>icons/pressedOk.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/pressedDelete.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
