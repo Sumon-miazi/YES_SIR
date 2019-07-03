@@ -53,7 +53,7 @@ bool Controller::addNewAttendance(QString studentName, QString date, int presenc
     bool flag;
     QStringList list = studentName.split(" >> ");
     int id = dao->getStudentIdByStudentName(list.value(1));
-    qDebug() << id ;
+   // qDebug() << id ;
     flag = dao->addAttendance(id,date,presence);
     return flag;
 }
@@ -61,7 +61,7 @@ bool Controller::addNewAttendance(QString studentName, QString date, int presenc
 void Controller::getBatchNameForAttendence(QString batchName)
 {
     studentsNameByBatch.clear();
-    qDebug() << "Batch name " << batchName;
+   // qDebug() << "Batch name " << batchName;
     studentsNameByBatch = dao->getAllStudentsNameByBatchId(dao->getBatchIdByBatchName(batchName));
 
 }
@@ -70,6 +70,13 @@ void Controller::updatePresenceByDateAndStudentId(QString studentName, QString d
 {
     QStringList list = studentName.split(" >> ");
     dao->updatePresenceByDateAndStudentId(dao->getStudentIdByStudentName(list.value(1)),date,presence);
+}
+
+void Controller::updateBatchName(QString oldName, QString newName)
+{
+    if(newName.isEmpty())
+        return;
+    dao->updateBatchName(oldName,newName);
 }
 
 void Controller::deleteBatchByName(QString batchName)
@@ -81,7 +88,7 @@ void Controller::deleteStudentByName(QString studentName)
 {
     QStringList list = studentName.split(" >> ");
     dao->deleteStudentByName(list.value(1));
-    qDebug() << list.value(1);
+  //  qDebug() << list.value(1);
 }
 
 void Controller::setBatchList(QObject *obj)

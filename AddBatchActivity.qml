@@ -6,7 +6,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Rectangle {
-    id: root
+    id: batchRoot
     visible: true
     width: 360
     height: 640
@@ -55,12 +55,20 @@ Rectangle {
             height: 50
             color: index % 2 == 0 ? "#e8f0fc" : "white"
             Text {
-                id:batchName
+                id:batchNameText
                 leftPadding: 20
                 text: modelData
                 font.weight: Font.Thin
                 font.pointSize: 16
                 anchors.verticalCenter: parent.verticalCenter
+
+                MouseArea{
+                    anchors.fill: parent
+                    onPressAndHold: {
+                        console.log("long clicked")
+                        popup.open()
+                    }
+                }
             }
             Image {
                 id: cross
@@ -74,11 +82,57 @@ Rectangle {
                     id:crossMouse
                     anchors.fill: parent
                     onClicked: {
-                        controller.deleteBatchByName(batchName.text)
+                        controller.deleteBatchByName(batchNameText.text)
                         controller.callUpdateSignal()
                     }
                 }
             }
+            Popup {
+                    id: popup
+                    x: (batchRoot.width / 2) - (popup.width/2)
+                    y: 100 //(batchRoot.height / 2) -(popup.height/2)
+                    width: (batchRoot.width - 40)
+                    height: 300
+                    modal: true
+                    focus: true
+                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+                    Column{
+                        id: column2
+                        Material.background: Material.White
+                        Material.elevation: 2
+                        anchors.centerIn: parent
+                        spacing: 16
+                        Text {
+                            id: title2
+                            text: qsTr("Update Batch Name")
+                            font.bold: true
+                            font.pointSize: 16
+                            anchors.topMargin: -20
+                            color: "#666"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        TextField {
+                            id: newBatchName
+                            width: customBg.width - 20
+                            height: 40
+                            placeholderText: "Enter batch name"
+                            horizontalAlignment: Text.AlignHCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+
+                        Button {
+                            id: updateButton
+                            text: qsTr("UPDATE BATCH")
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: {
+                                controller.updateBatchName(batchNameText.text,newBatchName.text)
+                                controller.callUpdateSignal();
+                                popup.close()
+                            }
+                        }
+                    }
+             }
         }
     }
 
@@ -106,7 +160,7 @@ Rectangle {
             }
 
             Button {
-                id: button
+                id: addButton
                 text: qsTr("ADD BATCH")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
@@ -116,7 +170,6 @@ Rectangle {
                 }
             }
         }
-
 
     }
 

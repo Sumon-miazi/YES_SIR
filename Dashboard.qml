@@ -25,7 +25,7 @@ Item {
                 labelText: qsTr("Batch Settings")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
-                    console.log("clicked")
+                    console.log("Batch Settings clicked")
                     load.source = "qrc:/AddBatchActivity.qml"
                 }
             }
@@ -35,7 +35,7 @@ Item {
                 labelText: qsTr("Student Settings")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
-                    console.log("clicked")
+                    console.log("Student Settings clicked")
                     load.source = "qrc:/AddStudentActivity.qml"
                 }
             }
@@ -49,7 +49,7 @@ Item {
                 labelText: qsTr("Attendance Graph")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
-                    console.log("clicked")
+                    console.log("Attendance Graph clicked")
                     load.source = "qrc:/AttendanceGraph.qml"
                 }
 
@@ -60,7 +60,7 @@ Item {
                 labelText: qsTr("Attendance")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
-                    console.log("clicked")
+                    console.log("Attendance clicked")
                     load.source = "qrc:/AllBatchName.qml"
                 }
             }

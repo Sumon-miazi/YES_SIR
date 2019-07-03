@@ -86,11 +86,8 @@ Rectangle {
             y: 514
             text: qsTr("ADD STUDEN")
             focusPolicy: Qt.TabFocus
-            wheelEnabled: false
-            flat: false
-            highlighted: false
             onClicked: {
-                console.log(comboBox.currentText)
+              //  console.log(comboBox.currentText)
                 controller.addNewStudent(studentName.text,rollNo.text,comboBox.currentText)
                 studentName.text = ""
                 rollNo.text = ""
@@ -149,7 +146,7 @@ Rectangle {
             text: qsTr("DELETE STUDENT")
 
             onClicked:{
-                console.log(studentNameBox.currentText)
+               // console.log(studentNameBox.currentText)
                 controller.deleteStudentByName(studentNameBox.currentText)
                 controller.callStudentUpdateSignale(studentNameBox.currentIndex)
             }

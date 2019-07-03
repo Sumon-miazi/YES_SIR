@@ -35,6 +35,7 @@ public slots:
     void getBatchNameForAttendence(QString batchName);
 
     void updatePresenceByDateAndStudentId(QString studentName,QString date,int presence);
+    void updateBatchName(QString oldName, QString newName);
 
     void deleteBatchByName(QString batchName);
     void deleteStudentByName(QString studentName);

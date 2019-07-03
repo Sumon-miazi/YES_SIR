@@ -109,6 +109,26 @@ bool Dao::updatePresenceByDateAndStudentId(int studentId, QString date, int pres
     return flag;
 }
 
+bool Dao::updateBatchName(QString oldName, QString newName)
+{
+    bool flag;
+    QSqlQuery query;
+    query.prepare("UPDATE batch set name=:newName WHERE name=:oldName");
+    query.bindValue(":newName", newName);
+    query.bindValue(":oldName", oldName);
+    if(query.exec())
+       {
+            qDebug() << "update bactch success";
+            flag = true;
+       }
+       else
+       {
+            qDebug() << "update update error:" ;
+            flag = false;
+    }
+    return flag;
+}
+
 bool Dao::deleteBatchByName(QString batchName)
 {
     QSqlQuery query;
@@ -156,7 +176,7 @@ QStringList Dao::getAllBatchName()
 
 QStringList Dao::getAllStudentsNameByBatchId(int batchId)
 {
-    qDebug() << "batch id = " << batchId ;
+   // qDebug() << "batch id = " << batchId ;
     QStringList list;
     QSqlQuery query;
     query.prepare("SELECT * FROM student WHERE batch_id = ?");

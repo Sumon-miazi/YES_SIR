@@ -85,6 +85,8 @@ Rectangle {
                                 controller.updatePresenceByDateAndStudentId(studentName.text,date,0);
                                 okMouse.enabled = true;
                             }
+
+                            //controller.callStudentUpdateSignale(listView.currentIndex)
                         }
                     }
                 }
@@ -98,7 +100,6 @@ Rectangle {
                         id:okMouse
                         anchors.fill: parent
                         onClicked: {
-                           // addOrUpdatePresence(studentName.text,1)
                             enabled = false
                             var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
                             if( crossMouse.enabled == true){
@@ -108,6 +109,8 @@ Rectangle {
                                 controller.updatePresenceByDateAndStudentId(studentName.text,date,1);
                                 crossMouse.enabled = true;
                             }
+
+                            //controller.callStudentUpdateSignale(listView.currentIndex)
                         }
                     }
                 }
@@ -118,22 +121,4 @@ Rectangle {
 
     }
 
-    function addOrUpdatePresence(name,presence){
-        var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()
-
-        if((okMouse.enabled == false && crossMouse.enabled == true) || (okMouse.enabled == true && crossMouse.enabled == false)){
-            controller.addNewAttendance(name,date,presence)
-        }
-        else if(okMouse.enabled == false){
-            crossMouse.enabled = true
-            controller.updatePresenceByDateAndStudentId(name,date,presence)
-        }
-        else if(crossMouse.enabled == false){
-            okMouse.enabled = true
-            controller.updatePresenceByDateAndStudentId(name,date,presence)
-        }
-
-
-        //controller.callStudentUpdateSignale(listView.currentIndex)
-    }
 }

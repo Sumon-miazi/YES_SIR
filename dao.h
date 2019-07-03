@@ -14,6 +14,7 @@ public:
     bool addAttendance(int studentId,QString date,int presence);
 
     bool updatePresenceByDateAndStudentId(int studentId,QString date,int presence);
+    bool updateBatchName(QString oldName,QString newName);
 
     bool deleteBatchByName(QString batchName);
     bool deleteStudentByName(QString studentName);
