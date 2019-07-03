@@ -13,6 +13,8 @@ public:
     bool addStudent(QString name,QString roll,int batch);
     bool addAttendance(int studentId,QString date,int presence);
 
+    bool updatePresenceByDateAndStudentId(int studentId,QString date,int presence);
+
     bool deleteBatchByName(QString batchName);
     bool deleteStudentByName(QString studentName);
 

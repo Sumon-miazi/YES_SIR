@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include "controller.h"
@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     Controller controller;
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     QQuickStyle::setStyle("Material");
     QQmlApplicationEngine engine;
 

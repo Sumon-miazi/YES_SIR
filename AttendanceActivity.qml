@@ -10,6 +10,7 @@ Rectangle {
     visible: true
     width: 360
     height: 640
+    property alias listView: listView
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
@@ -34,7 +35,6 @@ Rectangle {
             }
             ToolButton {
                 text: qsTr(":")
-                onClicked: menu.open()
             }
         }
     }
@@ -71,14 +71,20 @@ Rectangle {
                     id: cross
                     width: 30
                     height: 30
-                    source: crossMouse.pressed? "qrc:/icon/icons/pressedCross.png" : "qrc:/icon/icons/cross.png"
+                    source: crossMouse.enabled? "qrc:/icon/icons/pressedCross.png" : "qrc:/icon/icons/cross.png"
                     MouseArea{
                         id:crossMouse
                         anchors.fill: parent
                         onClicked: {
-                            var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()
-                            controller.addNewAttendance(studentName.text,date,0)
-                            controller.callStudentUpdateSignale(listView.currentIndex)
+                            enabled = false
+                            var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
+                            if( okMouse.enabled == true){
+                                controller.addNewAttendance(studentName.text,date,0);
+                            }
+                            else if(okMouse.enabled == false){
+                                controller.updatePresenceByDateAndStudentId(studentName.text,date,0);
+                                okMouse.enabled = true;
+                            }
                         }
                     }
                 }
@@ -87,15 +93,21 @@ Rectangle {
                     id: ok
                     width: 30
                     height: 30
-                    source: okMouse.pressed? "qrc:/icon/icons/pressedOk.png" : "qrc:/icon/icons/ok.png"
+                    source: okMouse.enabled? "qrc:/icon/icons/pressedOk.png" : "qrc:/icon/icons/ok.png"
                     MouseArea{
                         id:okMouse
                         anchors.fill: parent
                         onClicked: {
-                            var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()
-                            console.log(date)
-                            controller.addNewAttendance(studentName.text,date,1)
-                            controller.callStudentUpdateSignale(listView.currentIndex)
+                           // addOrUpdatePresence(studentName.text,1)
+                            enabled = false
+                            var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
+                            if( crossMouse.enabled == true){
+                                controller.addNewAttendance(studentName.text,date,1);
+                            }
+                            else if(crossMouse.enabled == false){
+                                controller.updatePresenceByDateAndStudentId(studentName.text,date,1);
+                                crossMouse.enabled = true;
+                            }
                         }
                     }
                 }
@@ -103,6 +115,25 @@ Rectangle {
             }
 
         }
+
     }
 
+    function addOrUpdatePresence(name,presence){
+        var date = new Date().getDay() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()
+
+        if((okMouse.enabled == false && crossMouse.enabled == true) || (okMouse.enabled == true && crossMouse.enabled == false)){
+            controller.addNewAttendance(name,date,presence)
+        }
+        else if(okMouse.enabled == false){
+            crossMouse.enabled = true
+            controller.updatePresenceByDateAndStudentId(name,date,presence)
+        }
+        else if(crossMouse.enabled == false){
+            okMouse.enabled = true
+            controller.updatePresenceByDateAndStudentId(name,date,presence)
+        }
+
+
+        //controller.callStudentUpdateSignale(listView.currentIndex)
+    }
 }

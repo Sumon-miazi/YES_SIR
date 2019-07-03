@@ -9,9 +9,9 @@ Dao::Dao()
        qDebug() << "db open";
        QSqlQuery query;
 
-       query.exec("CREATE TABLE IF NOT EXISTS batch(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
-       query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,roll TEXT,batch_id INTEGER,FOREIGN KEY(batch_id) REFERENCES batch(id)  ON DELETE CASCADE ON UPDATE CASCADE)");
-       query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,student_id INTEGER,date TEXT,presence INT,FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE ON UPDATE CASCADE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS batch(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,roll TEXT,batch_id INTEGER,UNIQUE(roll, batch_id) ON CONFLICT REPLACE,FOREIGN KEY(batch_id) REFERENCES batch(id)  ON DELETE CASCADE ON UPDATE CASCADE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,student_id INTEGER,date TEXT,presence INT,FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE ON UPDATE CASCADE,UNIQUE(student_id, date) ON CONFLICT REPLACE)");
 
     }
     else {
@@ -83,6 +83,27 @@ bool Dao::addAttendance(int studentId, QString date, int presence)
        else
        {
             qDebug() << "add Attendance error:" ;
+            flag = false;
+    }
+    return flag;
+}
+
+bool Dao::updatePresenceByDateAndStudentId(int studentId, QString date, int presence)
+{
+    bool flag;
+    QSqlQuery query;
+    query.prepare("UPDATE attendance set presence=:presence WHERE student_id=:student_id AND date=:date ");
+    query.bindValue(":student_id", studentId);
+    query.bindValue(":date", date);
+    query.bindValue(":presence", presence);
+    if(query.exec())
+       {
+            qDebug() << "update Attendance success";
+            flag = true;
+       }
+       else
+       {
+            qDebug() << "update Attendance error:" ;
             flag = false;
     }
     return flag;

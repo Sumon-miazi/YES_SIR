@@ -7,5 +7,6 @@
         <file>AddBatchActivity.qml</file>
         <file>AttendanceActivity.qml</file>
         <file>AddStudentActivity.qml</file>
+        <file>AttendanceGraph.qml</file>
     </qresource>
 </RCC>

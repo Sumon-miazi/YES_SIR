@@ -32,7 +32,6 @@ Rectangle {
             }
             ToolButton {
                 text: qsTr(":")
-                onClicked: menu.open()
             }
         }
     }

@@ -25,7 +25,7 @@ Rectangle {
                 }
             }
             Label {
-                text: "Add Batch"
+                text: "Batch Activity"
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
@@ -33,7 +33,6 @@ Rectangle {
             }
             ToolButton {
                 text: qsTr(":")
-                onClicked: menu.open()
             }
         }
     }

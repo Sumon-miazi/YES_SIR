@@ -22,7 +22,7 @@ Item {
             Cardview{
                 width: root.width * .4
                 height: grid.height * .45
-                labelText: qsTr("Add Batch")
+                labelText: qsTr("Batch Settings")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
                     console.log("clicked")
@@ -32,7 +32,7 @@ Item {
             Cardview{
                 width: root.width * .4
                 height: grid.height * .45
-                labelText: qsTr("Add Student")
+                labelText: qsTr("Student Settings")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
                     console.log("clicked")
@@ -48,6 +48,10 @@ Item {
                 height: grid.height * .45
                 labelText: qsTr("Attendance Graph")
                 elevation: mouseArea.pressed? 1 : 4
+                mouseArea.onClicked: {
+                    console.log("clicked")
+                    load.source = "qrc:/AttendanceGraph.qml"
+                }
 
             }
             Cardview{

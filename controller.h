@@ -34,6 +34,8 @@ public slots:
 
     void getBatchNameForAttendence(QString batchName);
 
+    void updatePresenceByDateAndStudentId(QString studentName,QString date,int presence);
+
     void deleteBatchByName(QString batchName);
     void deleteStudentByName(QString studentName);
 

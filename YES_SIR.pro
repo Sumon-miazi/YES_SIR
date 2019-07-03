@@ -1,6 +1,7 @@
 
 QT += quickcontrols2
 QT += sql core
+QT += charts
 
 CONFIG += c++11
 

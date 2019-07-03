@@ -26,7 +26,7 @@ Rectangle {
                 }
             }
             Label {
-                text: "Add Student"
+                text: "Student's Activity"
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
@@ -34,7 +34,6 @@ Rectangle {
             }
             ToolButton {
                 text: qsTr(":")
-                onClicked: menu.open()
             }
         }
     }
