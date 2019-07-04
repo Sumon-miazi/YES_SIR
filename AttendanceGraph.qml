@@ -7,7 +7,7 @@ import QtQuick.Layouts 1.3
 import QtCharts 2.3
 
 Rectangle {
-    id:root
+    id:attendanceRoot
     visible: true
     width: 360
     height: 640
@@ -48,61 +48,47 @@ Rectangle {
             controller.setBatchList(comboBox)
             controller.callUpdateSignal();
         }
-    }
-    /*
-    ChartView {
-        id: chart
-        title: "Student Name"
-        width: parent.width
-        height: 400
-        anchors.verticalCenterOffset: 46
-        anchors.horizontalCenterOffset: 0
-        anchors.centerIn: parent
-        legend.alignment: Qt.AlignBottom
-        antialiasing: true
+        onCurrentTextChanged:{
+            controller.getBatchNameForAttendence(comboBox.currentText)
+            controller.callStudentUpdateSignale(-1)
 
-        PieSeries {
-            id: pieSeries
-            PieSlice { label: "Volkswagen"; value: 13.5 }
+
         }
     }
-
+    /*
     Component.onCompleted: {
         // You can also manipulate slices dynamically, like append a slice or set a slice exploded
         pieSeries.append("Others", 52.0);
         pieSeries.find("Volkswagen").exploded = true;
     }
-
-    ListView {
-        id: listView
-        y: 100
-        width: parent.width
-        height: 518
-        model: ListModel{
-            ListElement{name:"sumon miazi"}
-            ListElement{name:"sumon"}
-        }
-
-        delegate: Item {
-            width: parent.width
-            height: 200
-            ChartView {
-                        title: name
-
-                        backgroundColor: "#666"
-                        anchors.verticalCenterOffset: 46
-                        anchors.horizontalCenterOffset: 0
-                        anchors.centerIn: parent
-                        legend.alignment: Qt.AlignBottom
-                        antialiasing: true
-
-                        PieSeries {
-                            PieSlice { label: "Volkswagen"; value: 13.5 }
-                        }
-                    }
-        }
-    }
-
 */
 
+    ListView {
+        id: listViewOfStudent
+        x: 0
+        y: 128
+        height: 500
+        clip: true
+        width: parent.width
+        model:["Student", "name"]
+        Component.onCompleted: {
+            controller.setStudentList(listViewOfStudent)
+        }
+
+        delegate:ChartView {
+            id: chart
+            title: "Student Name"
+            width: parent.width
+            height: 200
+            backgroundColor: index % 2 == 0 ? "#e8f0fc" : "white"
+            legend.alignment: Qt.AlignLeft
+            antialiasing: true
+
+            PieSeries {
+                id: pieSeries
+                PieSlice { label: "Presence"; value: 13.5; exploded: true }
+                PieSlice { label: "Absence"; value: 53.5 }
+            }
+        }
+    }
 }

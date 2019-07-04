@@ -17,15 +17,15 @@ ApplicationWindow {
     Rectangle {
         anchors.fill: parent
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "#FED4EE" }
-            GradientStop { position: 0.3; color: "#F9D4FE" }
-            GradientStop { position: 0.6; color: "#E4D4FE" }
-            GradientStop { position: 1.0; color: "#D4D9FE" }
+            GradientStop { position: 0.0; color: "#222831" }
+            GradientStop { position: 0.3; color: "#393e46" }
+            GradientStop { position: 0.6; color: "#00adb5" }
+            GradientStop { position: 1.0; color: "#eeeeee" }
         }
     }
     Image {
         id: logo
-        x: 30
+        x: (parent.width/2) - (width/2)
         y: 31
         width: 300
         height: 110

@@ -8,6 +8,15 @@
         <file>icons/pressedOk.png</file>
         <file>icons/delete.png</file>
         <file>icons/pressedDelete.png</file>
+        <file>icons/success.png</file>
+        <file>icons/pressedSuccess.png</file>
+        <file>icons/pressedError.png</file>
+        <file>icons/error.png</file>
+        <file>icons/garbage.png</file>
+        <file>icons/id-card.png</file>
+        <file>icons/analysis.png</file>
+        <file>icons/calendar.png</file>
+        <file>icons/networking.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

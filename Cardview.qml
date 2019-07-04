@@ -32,7 +32,7 @@ Rectangle {
             Image {
                 id: image
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width * .3
+                width: root.width < root.height ? root.width * .5  : root.height * .5
                 height: width
                 source: "qrc:/icon/icons/student.png"
             }
@@ -42,7 +42,7 @@ Rectangle {
 
                 width: root.width - 10
                 height: 1
-                color: "red"
+                color: "#0E9199"
 
             }
             Label{

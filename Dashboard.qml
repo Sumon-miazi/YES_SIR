@@ -22,6 +22,7 @@ Item {
             Cardview{
                 width: root.width * .4
                 height: grid.height * .45
+                imageSource: "qrc:/icon/icons/networking.png"
                 labelText: qsTr("Batch Settings")
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
@@ -33,6 +34,7 @@ Item {
                 width: root.width * .4
                 height: grid.height * .45
                 labelText: qsTr("Student Settings")
+                imageSource: "qrc:/icon/icons/id-card.png"
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
                     console.log("Student Settings clicked")
@@ -47,6 +49,7 @@ Item {
                 width: root.width * .4
                 height: grid.height * .45
                 labelText: qsTr("Attendance Graph")
+                imageSource: "qrc:/icon/icons/analysis.png"
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
                     console.log("Attendance Graph clicked")
@@ -58,6 +61,7 @@ Item {
                 width: root.width * .4
                 height: grid.height * .45
                 labelText: qsTr("Attendance")
+                imageSource: "qrc:/icon/icons/calendar.png"
                 elevation: mouseArea.pressed? 1 : 4
                 mouseArea.onClicked: {
                     console.log("Attendance clicked")
