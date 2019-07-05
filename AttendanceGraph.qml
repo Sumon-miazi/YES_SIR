@@ -11,6 +11,7 @@ Rectangle {
     visible: true
     width: 360
     height: 640
+    color: "#95adbe"
     Material.theme: Material.Light
     Material.accent: Material.Purple
 

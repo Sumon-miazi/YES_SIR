@@ -14,6 +14,16 @@ Rectangle {
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
+    Rectangle {
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#ebfffa" }
+            GradientStop { position: 0.3; color: "#c6fce5" }
+            GradientStop { position: 0.6; color: "#6ef3d6" }
+            GradientStop { position: 1.0; color: "#0dceda" }
+        }
+    }
+
 
     ToolBar {
         width: parent.width

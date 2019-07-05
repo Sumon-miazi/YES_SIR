@@ -13,6 +13,15 @@ Rectangle {
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
+    Rectangle {
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#48466d" }
+            GradientStop { position: 0.3; color: "#3d84a8" }
+            GradientStop { position: 0.6; color: "#46cdcf" }
+            GradientStop { position: 1.0; color: "#abedd8" }
+        }
+    }
 
     ToolBar {
         width: parent.width
@@ -39,10 +48,11 @@ Rectangle {
 
     ListView {
         id: listView
-        x: 0
-        y: 102
-        width: parent.width
-        height: 280
+        x: (parent.width/2) - (width/2)
+        y: 70
+        width: parent.width - 40
+        height: 360
+        clip: true
 
         model: ["asd","asdf"]
         Component.onCompleted:{
@@ -53,7 +63,7 @@ Rectangle {
         delegate: Rectangle {
             width: parent.width
             height: 50
-            color: index % 2 == 0 ? "#e8f0fc" : "white"
+            color: index % 2 == 0 ? "#e8f0fc" : "#FFF"
             Text {
                 id:batchNameText
                 leftPadding: 20
@@ -139,8 +149,8 @@ Rectangle {
     Pane {
         y: 439
         id: customBg
-        x: 20
-        Material.background: Material.White
+        x: (parent.width/2) - (width/2)
+        Material.background: "#393e46"
         Material.elevation: 2
         //anchors.fill: parent
         width: parent.width - 40
@@ -154,6 +164,8 @@ Rectangle {
                 id: batchname
                 width: customBg.width - 20
                 height: 40
+                color: "#FFF"
+                placeholderTextColor: "#FFF"
                 placeholderText: "Enter batch name"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter

@@ -13,6 +13,16 @@ Rectangle {
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
+    Rectangle {
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#48466d" }
+            GradientStop { position: 0.3; color: "#3d84a8" }
+            GradientStop { position: 0.6; color: "#46cdcf" }
+            GradientStop { position: 1.0; color: "#abedd8" }
+        }
+    }
+
     ToolBar {
         width: parent.width
         RowLayout {
@@ -38,9 +48,11 @@ Rectangle {
 
     ListView {
         id: listView
-        y: 100
-        width: parent.width
-        height: 518
+        y: 70
+        clip: true
+        x :(parent.width/2) - (width/2)
+        width: parent.width - 40
+        height: 530
         model: ["batch","name"]
         Component.onCompleted: {
             controller.setBatchList(listView)
@@ -67,6 +79,4 @@ Rectangle {
             }
         }
     }
-
-
 }
