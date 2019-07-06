@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QQuickStyle::setStyle("Material");
     QQmlApplicationEngine engine;
-
     QQmlContext* context = engine.rootContext();
     context->setContextProperty("controller",&controller);
 

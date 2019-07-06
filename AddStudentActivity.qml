@@ -64,6 +64,7 @@ Rectangle {
             width: parent.width - 40
             height: 40
             placeholderText: "Enter Roll no"
+            inputMethodHints: Qt.ImhDigitsOnly
             horizontalAlignment: Text.AlignHCenter
         }
 
@@ -187,7 +188,9 @@ Rectangle {
 
 
 
+
+
 /*##^## Designer {
-    D{i:6;invisible:true}D{i:7;invisible:true}D{i:8;invisible:true}D{i:10;invisible:true}
+    D{i:6;invisible:true}D{i:10;invisible:true}D{i:8;invisible:true}D{i:7;invisible:true}
 }
  ##^##*/

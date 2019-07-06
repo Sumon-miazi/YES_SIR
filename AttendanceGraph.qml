@@ -41,7 +41,7 @@ Rectangle {
         id: comboBox
         x: (parent.width / 2) - (width/2)
         y: 60
-        width: 320
+        width:  parent.width - 40
         height: 54
         wheelEnabled: true
         focusPolicy: Qt.StrongFocus
@@ -51,45 +51,71 @@ Rectangle {
         }
         onCurrentTextChanged:{
             controller.getBatchNameForAttendence(comboBox.currentText)
-            controller.callStudentUpdateSignale(-1)
-
-
+            setGraphModelData()
         }
     }
-    /*
-    Component.onCompleted: {
-        // You can also manipulate slices dynamically, like append a slice or set a slice exploded
-        pieSeries.append("Others", 52.0);
-        pieSeries.find("Volkswagen").exploded = true;
+
+    ComboBox {
+        id: monthNameBox
+        x: (parent.width / 2) - (width/2)
+        y: 110
+        width:  parent.width - 40
+        height: 54
+        wheelEnabled: true
+        focusPolicy: Qt.StrongFocus
+        Component.onCompleted:{
+            controller.setMonthList(monthNameBox)
+            controller.getAllMonth()
+        }
+        onCurrentTextChanged:{
+            setGraphModelData()
+        }
     }
-*/
 
     ListView {
-        id: listViewOfStudent
-        x: 0
-        y: 128
-        height: 500
+        id: attendanceGraphStudent
+        x: (parent.width/2) - (width/2)
+        y: 178
+        height:(parent.height * .7)
         clip: true
         width: parent.width
-        model:["Student", "name"]
-        Component.onCompleted: {
-            controller.setStudentList(listViewOfStudent)
+        model:ListModel{
+            id:graphModel
         }
-
         delegate:ChartView {
             id: chart
-            title: "Student Name"
-            width: parent.width
+            title: name
+            x:(parent.width/2) - (width/2)
+            width: parent.width - 20
             height: 200
             backgroundColor: index % 2 == 0 ? "#e8f0fc" : "white"
             legend.alignment: Qt.AlignLeft
             antialiasing: true
-
+            animationDuration: ChartView.AllAnimations
+            dropShadowEnabled: true
             PieSeries {
                 id: pieSeries
-                PieSlice { label: "Presence"; value: 13.5; exploded: true }
-                PieSlice { label: "Absence"; value: 53.5 }
+                holeSize: .2
+                size: .8
+                PieSlice { label: "Presence"; value: presence; exploded: true}
+                PieSlice { label: "Absence"; value: notPresence }
             }
+        }
+    }
+
+
+
+ //   Component.onCompleted: setGraphModelData()
+    function setGraphModelData(){
+        graphModel.clear()
+        var data =  controller.getGraphData(comboBox.currentText,monthNameBox.currentText);
+        for(var i in data){
+            //console.log(data[i])
+            var studentInfo = data[i].split(">>")
+            graphModel.append({"name":studentInfo[0] +" ["+ studentInfo[1]+"]",
+                                  "presence":parseInt(studentInfo[2]),
+                                  "notPresence":parseInt(studentInfo[3])})
+                //console.log(studentInfo[a])
         }
     }
 }

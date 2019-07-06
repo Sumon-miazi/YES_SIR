@@ -99,7 +99,7 @@ Rectangle {
             }
             Popup {
                     id: popup
-                    x: (batchRoot.width / 2) - (popup.width/2)
+                    x: (batchRoot.width / 2) - (popup.width/2 + 20)
                     y: 100 //(batchRoot.height / 2) -(popup.height/2)
                     width: (batchRoot.width - 40)
                     height: 300
@@ -126,7 +126,9 @@ Rectangle {
                             id: newBatchName
                             width: customBg.width - 20
                             height: 40
+                            font.capitalization: Font.AllUppercase
                             placeholderText: "Enter batch name"
+                            text: batchNameText.text
                             horizontalAlignment: Text.AlignHCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
@@ -136,7 +138,7 @@ Rectangle {
                             text: qsTr("UPDATE BATCH")
                             anchors.horizontalCenter: parent.horizontalCenter
                             onClicked: {
-                                controller.updateBatchName(batchNameText.text,newBatchName.text)
+                                controller.updateBatchName(batchNameText.text,newBatchName.text.toUpperCase())
                                 controller.callUpdateSignal();
                                 popup.close()
                             }
@@ -164,6 +166,7 @@ Rectangle {
                 id: batchname
                 width: customBg.width - 20
                 height: 40
+                font.capitalization: Font.AllUppercase
                 color: "#FFF"
                 placeholderTextColor: "#FFF"
                 placeholderText: "Enter batch name"
@@ -176,7 +179,7 @@ Rectangle {
                 text: qsTr("ADD BATCH")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    controller.addNewBatch(batchname.text)
+                    controller.addNewBatch(batchname.text.toUpperCase())
                     controller.callUpdateSignal();
                     batchname.text = ""
                 }

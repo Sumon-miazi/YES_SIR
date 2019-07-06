@@ -4,6 +4,28 @@ Controller::Controller(QObject *parent) : QObject(parent)
 {
     dao = new Dao();
     connect(this,&Controller::UpdateBatchList,this,&Controller::putBatchData);
+
+    monthNames.insert(1,"January");
+    monthNames.insert(2,"February");
+    monthNames.insert(3,"March");
+    monthNames.insert(4,"April");
+    monthNames.insert(5,"May");
+    monthNames.insert(6,"June");
+    monthNames.insert(7,"July");
+    monthNames.insert(8,"August");
+    monthNames.insert(9,"September");
+    monthNames.insert(10,"October");
+    monthNames.insert(11,"November");
+    monthNames.insert(12,"December");
+
+    saveMonthName();
+   // dao->getGraphData("37A","July 2019");
+    /*
+    QVector<QList<QString>> data = dao->getGraphData("37A","July 2019");
+    for(auto a: data){
+        for(auto b : a)
+            qDebug() << "b = " << b;
+    }*/
 }
 
 void Controller::putBatchData()
@@ -66,6 +88,20 @@ void Controller::getBatchNameForAttendence(QString batchName)
 
 }
 
+void Controller::getAllMonth()
+{
+    QStringList list = dao->getAllMonthName();
+    monthList->setProperty("model",QVariant(list));
+
+}
+
+QList<QString> Controller::getGraphData(QString batchName, QString monthName)
+{
+    QList<QString> list = dao->getGraphData(batchName,monthName);
+   // qDebug() << "debug " << list;
+    return list;
+}
+
 void Controller::updatePresenceByDateAndStudentId(QString studentName, QString date, int presence)
 {
     QStringList list = studentName.split(" >> ");
@@ -99,4 +135,17 @@ void Controller::setBatchList(QObject *obj)
 void Controller::setStudentList(QObject *obj)
 {
     this->studentList = obj;
+}
+
+void Controller::setMonthList(QObject *obj)
+{
+    this->monthList = obj;
+}
+void Controller::saveMonthName()
+{
+    QDate *date = new QDate();
+    int month = date->currentDate().month();
+    QString monthWithYear = monthNames.value(month) + " " + QString::number(date->currentDate().year());
+
+    dao->saveMonthName(monthWithYear);
 }

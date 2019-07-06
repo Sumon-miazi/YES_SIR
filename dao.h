@@ -21,11 +21,19 @@ public:
 
     QStringList getAllBatchName();
     QStringList getAllStudentsNameByBatchId(int batchId);
+    QStringList getAllMonthName();
+
+    QList<QString> getGraphData(QString batchName,QString monthName);
 
     int getBatchIdByBatchName(QString batchName);
     int getStudentIdByStudentName(QString studentName);
+
+    bool saveMonthName(QString monthName);
 private:
     QSqlDatabase db;
+    QList<int> getAllStudentIdByBatchId(int batchId);
+    QMap<int,QString> monthNames;
+    QMap<int,QString> studentNameAndRoll;
 };
 
 #endif // DAO_H

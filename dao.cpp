@@ -10,13 +10,33 @@ Dao::Dao()
        QSqlQuery query;
 
        qDebug() << query.exec("CREATE TABLE IF NOT EXISTS batch(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
-       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,roll TEXT,batch_id INTEGER,UNIQUE(roll, batch_id) ON CONFLICT REPLACE,FOREIGN KEY(batch_id) REFERENCES batch(id)  ON DELETE CASCADE ON UPDATE CASCADE)");
-       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,student_id INTEGER,date TEXT,presence INT,FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE ON UPDATE CASCADE,UNIQUE(student_id, date) ON CONFLICT REPLACE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                              "name TEXT,roll TEXT,batch_id INTEGER,UNIQUE(roll, batch_id) ON CONFLICT REPLACE,"
+                              "FOREIGN KEY(batch_id) REFERENCES batch(id)  ON DELETE CASCADE ON UPDATE CASCADE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                              "student_id INTEGER,date TEXT,presence INT,"
+                              "FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE ON UPDATE CASCADE,"
+                              "UNIQUE(student_id, date) ON CONFLICT REPLACE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS month(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
 
     }
     else {
         qDebug() << "error";
     }
+
+
+    monthNames.insert(1,"January");
+    monthNames.insert(2,"February");
+    monthNames.insert(3,"March");
+    monthNames.insert(4,"April");
+    monthNames.insert(5,"May");
+    monthNames.insert(6,"June");
+    monthNames.insert(7,"July");
+    monthNames.insert(8,"August");
+    monthNames.insert(9,"September");
+    monthNames.insert(10,"October");
+    monthNames.insert(11,"November");
+    monthNames.insert(12,"December");
 
 }
 
@@ -192,6 +212,68 @@ QStringList Dao::getAllStudentsNameByBatchId(int batchId)
     return list;
 }
 
+
+QStringList Dao::getAllMonthName()
+{
+    QStringList list;
+    QSqlQuery query;
+    query.prepare("SELECT name FROM month");
+    if(query.exec()){
+        while (query.next()){
+            list.append(query.value(0).toString());
+        }
+    }
+    else{
+            qDebug() << "get all month error:" ;
+    }
+    return list;
+}
+
+QList<QString> Dao::getGraphData(QString batchName, QString monthName)
+{
+    //qDebug() << "function call " << batchName << " " << monthName;
+    QList<QString> studentAttendanceGraphInfo;
+    QStringList list = monthName.split(" ");
+    int batchId = getBatchIdByBatchName(batchName);
+    QList<int> student_id = getAllStudentIdByBatchId(batchId);
+
+    int temp = monthNames.key(list.value(0));
+    QString date = "%-"+ QString::number(temp) + "-" + list.value(1);
+    //qDebug() << batchId << " " << date;
+
+    for(int i = 0;i < student_id.length();i++){
+        QSqlQuery query;
+        int presence = 0;
+        int notPresence = 0;
+     //   qDebug() << student_id.value(i) ;
+        query.prepare("SELECT presence FROM attendance WHERE student_id=:student_id AND date LIKE :date");
+        query.bindValue(":student_id", student_id.value(i));
+        query.bindValue(":date", date);
+        if(query.exec())
+           {
+            while (query.next()){
+                if(query.value(0).toInt() == 1)
+                    presence++;
+                else
+                    notPresence++;
+             //   qDebug() << "Student " << student_id.value(i) << " presence = " << query.value(0).toString();
+            }
+           }
+           else
+           {
+                qDebug() << "getGraphData error" ;
+              //  flag = false;
+        }
+
+        QString studentInfo = studentNameAndRoll.value(student_id.value(i));
+        studentInfo.append(">>" + QString::number(presence) + ">>" + QString::number(notPresence));
+       // qDebug() << "studentInfo " << studentInfo;
+        studentAttendanceGraphInfo.append(studentInfo);
+    }
+
+    return studentAttendanceGraphInfo;
+}
+
 int Dao::getBatchIdByBatchName(QString batchName)
 {
     int batchId = -1;
@@ -220,4 +302,35 @@ int Dao::getStudentIdByStudentName(QString studentName)
         studentId = query.value( 0 ).toInt();
 
     return studentId;
+}
+
+bool Dao::saveMonthName(QString monthName)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO month (name) VALUES (:name)");
+    query.bindValue(":name", monthName);
+    bool flag = query.exec();
+    if(!flag){
+       qDebug() << "month already exists";
+    }
+
+    return flag;
+}
+
+QList<int> Dao::getAllStudentIdByBatchId(int batchId)
+{
+    studentNameAndRoll.clear();
+    QList<int> list;
+    QSqlQuery query;
+    query.prepare("SELECT * FROM student WHERE(batch_id = ?)");
+    query.bindValue(0, batchId);
+    if(!query.exec()){
+       qDebug() << "error";
+    }
+    while (query.next()){
+        list.append(query.value( 0 ).toInt());
+        QString studentInfo = query.value(1).toString() + ">>" +query.value(2).toString();
+        studentNameAndRoll.insert(query.value(0).toInt(),studentInfo);
+    }
+    return list;
 }
