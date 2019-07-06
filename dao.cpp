@@ -177,6 +177,25 @@ bool Dao::deleteStudentByName(QString studentName)
     return flag;
 }
 
+bool Dao::deleteBatchAttendanceByMonthName(QString batchName,QString monthName)
+{
+    bool flag = true;
+    QStringList list = monthName.split(" ");
+    int batchId = getBatchIdByBatchName(batchName);
+    QList<int> studentIds = getAllStudentIdByBatchId(batchId);
+
+    QString date = "%-"+ QString::number(monthNames.key(list.value(0))) + "-" + list.value(1);
+    for(int i = 0; i < studentIds.length(); i++){
+        QSqlQuery query;
+        query.prepare("DELETE FROM attendance WHERE student_id=:student_id AND date LIKE :date");
+        query.bindValue(":student_id", studentIds.value(i));
+        query.bindValue(":date",date);
+        flag = query.exec();
+    }
+
+    return flag;
+}
+
 QStringList Dao::getAllBatchName()
 {
     QStringList list;

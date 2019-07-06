@@ -24,7 +24,6 @@ Rectangle {
         }
     }
 
-
     ToolBar {
         width: parent.width
         RowLayout {

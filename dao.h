@@ -18,6 +18,7 @@ public:
 
     bool deleteBatchByName(QString batchName);
     bool deleteStudentByName(QString studentName);
+    bool deleteBatchAttendanceByMonthName(QString batchName,QString monthName);
 
     QStringList getAllBatchName();
     QStringList getAllStudentsNameByBatchId(int batchId);

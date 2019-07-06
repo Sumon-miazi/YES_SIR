@@ -6,13 +6,14 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Rectangle {
-    id:root
+    id:allBatchRoot
     visible: true
     width: 360
     height: 640
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
+    property string txt: txt
     Rectangle {
         anchors.fill: parent
         gradient: Gradient {
@@ -76,7 +77,61 @@ Rectangle {
                     controller.getBatchNameForAttendence(batchName.text)
                     load.source = "qrc:/AttendanceActivity.qml"
                 }
+                onPressAndHold: {
+                    txt = batchName.text
+                    popup.open()
+                }
             }
         }
+        Popup {
+                id: popup
+                x: (allBatchRoot.width / 2) - (popup.width/2 + 20)
+                y: (allBatchRoot.height - height) / 2 -40
+                width: (allBatchRoot.width - 40)
+                height: 300
+                modal: true
+                focus: true
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+                Column{
+                    id: column2
+                    Material.background: Material.White
+                    Material.elevation: 2
+                    anchors.centerIn: parent
+                    spacing: 16
+                    Text {
+                        id: title2
+                        text: qsTr("Delete Batch Attendance")
+                        font.bold: true
+                        font.pointSize: 16
+                        anchors.topMargin: -20
+                        color: "#666"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    ComboBox {
+                        id: comboBox
+                        width: popup.width - 20
+                        height: 54
+                        wheelEnabled: true
+                        focusPolicy: Qt.StrongFocus
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Component.onCompleted:{
+                            controller.setMonthList(comboBox)
+                            controller.getAllMonth();
+                        }
+                    }
+
+                    Button {
+                        id: updateButton
+                        text: qsTr("DELETE ATTENDANCE")
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            console.log(txt +" "+ comboBox.currentText)
+                            controller.deleteBatchAttendanceByMonthName(txt,comboBox.currentText)
+                            popup.close()
+                        }
+                    }
+                }
+         }
     }
 }

@@ -124,7 +124,13 @@ void Controller::deleteStudentByName(QString studentName)
 {
     QStringList list = studentName.split(" >> ");
     dao->deleteStudentByName(list.value(1));
-  //  qDebug() << list.value(1);
+    //  qDebug() << list.value(1);
+}
+
+void Controller::deleteBatchAttendanceByMonthName(QString batchName, QString monthName)
+{
+    dao->deleteBatchAttendanceByMonthName(batchName,monthName);
+
 }
 
 void Controller::setBatchList(QObject *obj)

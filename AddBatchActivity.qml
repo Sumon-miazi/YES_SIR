@@ -99,12 +99,12 @@ Rectangle {
             }
             Popup {
                     id: popup
-                    x: (batchRoot.width / 2) - (popup.width/2 + 20)
-                    y: 100 //(batchRoot.height / 2) -(popup.height/2)
                     width: (batchRoot.width - 40)
                     height: 300
                     modal: true
                     focus: true
+                    x: (parent.width - width) / 2
+                    y: (parent.height - height) / 2
                     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
                     Column{
