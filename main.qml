@@ -9,6 +9,8 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 640
+    minimumWidth: 360
+    minimumHeight: 640
     Material.theme: Material.Light
     Material.accent: Material.Purple
 
@@ -31,7 +33,6 @@ ApplicationWindow {
         height: 110
         source: "qrc:/icon/icons/logo.png"
     }
-
     Loader{
         id:load
         anchors.fill: parent

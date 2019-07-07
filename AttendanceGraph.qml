@@ -93,6 +93,11 @@ Rectangle {
             antialiasing: true
             animationDuration: ChartView.AllAnimations
             dropShadowEnabled: true
+            MouseArea{
+                anchors.fill: parent
+                onClicked: popup.open()
+            }
+
             PieSeries {
                 id: pieSeries
                 holeSize: .2
@@ -100,10 +105,49 @@ Rectangle {
                 PieSlice { label: "Presence"; value: presence; exploded: true}
                 PieSlice { label: "Absence"; value: notPresence }
             }
+            Popup {
+                    id: popup
+                    x: (attendanceRoot.width - width - 20) / 2
+                    y: 0
+                    width: (attendanceRoot.width - 40)
+                    height: 200
+                    modal: true
+                    focus: true
+                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+
+                    ScrollView{
+                        clip: true
+                        height: popup.height
+                        width: popup.width
+                        anchors.fill: parent
+                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
+                        Text{
+                            id:txtPresence
+                            wrapMode: Text.WordWrap
+                            anchors.fill: parent
+                            clip: true
+                            text: alldata
+                            font.bold: true
+                            font.pointSize: 16
+                            color: "#666"
+                        }
+
+
+                    }
+             }
+
+            /*
+            BarSeries {
+                id: mySeries
+                axisX: BarCategoryAxis { categories: [roll ] }
+                BarSet { label: "Presence"; values: [presence] }
+                BarSet { label: "Absence"; values: [notPresence] }
+            }*/
         }
     }
-
-
 
  //   Component.onCompleted: setGraphModelData()
     function setGraphModelData(){
@@ -111,11 +155,15 @@ Rectangle {
         var data =  controller.getGraphData(comboBox.currentText,monthNameBox.currentText);
         for(var i in data){
             //console.log(data[i])
-            var studentInfo = data[i].split(">>")
+            var infoAndAttendance = data[i].split("#");
+            var studentInfo = infoAndAttendance[0].split(">>");
             graphModel.append({"name":studentInfo[0] +" ["+ studentInfo[1]+"]",
+                                  "roll":parseInt(studentInfo[1]),
                                   "presence":parseInt(studentInfo[2]),
-                                  "notPresence":parseInt(studentInfo[3])})
-                //console.log(studentInfo[a])
+                                  "notPresence":parseInt(studentInfo[3]),
+                                  "alldata":infoAndAttendance[1]})
+               // console.log(studentInfo)
+            //console.log(infoAndAttendance)
         }
     }
 }

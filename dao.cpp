@@ -264,28 +264,36 @@ QList<QString> Dao::getGraphData(QString batchName, QString monthName)
         QSqlQuery query;
         int presence = 0;
         int notPresence = 0;
+        QString temp;
      //   qDebug() << student_id.value(i) ;
-        query.prepare("SELECT presence FROM attendance WHERE student_id=:student_id AND date LIKE :date");
+        query.prepare("SELECT presence,date FROM attendance WHERE student_id=:student_id AND date LIKE :date");
         query.bindValue(":student_id", student_id.value(i));
         query.bindValue(":date", date);
         if(query.exec())
            {
             while (query.next()){
-                if(query.value(0).toInt() == 1)
+                temp.append(query.value(1).toString());
+                temp.append(" = ");
+
+                if(query.value(0).toInt() == 1){
                     presence++;
-                else
+                    temp.append("Presence");
+                }
+                else{
+                    temp.append("Absence");
                     notPresence++;
              //   qDebug() << "Student " << student_id.value(i) << " presence = " << query.value(0).toString();
+                }
+                temp.append("\n");
             }
-           }
-           else
-           {
+        }
+        else{
                 qDebug() << "getGraphData error" ;
               //  flag = false;
         }
 
         QString studentInfo = studentNameAndRoll.value(student_id.value(i));
-        studentInfo.append(">>" + QString::number(presence) + ">>" + QString::number(notPresence));
+        studentInfo.append(">>" + QString::number(presence) + ">>" + QString::number(notPresence) + "#" + temp);
        // qDebug() << "studentInfo " << studentInfo;
         studentAttendanceGraphInfo.append(studentInfo);
     }

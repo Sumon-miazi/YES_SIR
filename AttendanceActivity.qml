@@ -86,7 +86,10 @@ Rectangle {
                         anchors.fill: parent
                         onClicked: {
                             enabled = false
-                            var date = new Date().getDay() + "-" +( new Date().getMonth()+1) + "-" + new Date().getFullYear();
+                            var date = new Date().getDay() + "-" +
+                                    ( new Date().getMonth()+1) + "-" +
+                                    new Date().getFullYear();
+                            console.log("cross " + date)
                             if( okMouse.enabled == true){
                                 controller.addNewAttendance(studentName.text,date,0);
                             }
@@ -110,7 +113,10 @@ Rectangle {
                         anchors.fill: parent
                         onClicked: {
                             enabled = false
-                            var date = new Date().getDay() + "-" + (new Date().getMonth()+1) + "-" + new Date().getFullYear();
+                            var date = new Date().getDay() + "-" +
+                                    (new Date().getMonth()+1) + "-" +
+                                    new Date().getFullYear();
+
                             if( crossMouse.enabled == true){
                                 controller.addNewAttendance(studentName.text,date,1);
                             }
