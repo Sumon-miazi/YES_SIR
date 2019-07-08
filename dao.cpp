@@ -9,21 +9,27 @@ Dao::Dao()
        qDebug() << "db open";
        QSqlQuery query;
 
-       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS batch(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS batch(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                              "name TEXT UNIQUE)");
        qDebug() << query.exec("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                              "name TEXT,roll TEXT,batch_id INTEGER,UNIQUE(roll, batch_id) ON CONFLICT REPLACE,"
+                              "name TEXT,"
+                              "roll TEXT,"
+                              "batch_id INTEGER,"
+                              "UNIQUE(roll, batch_id) ON CONFLICT REPLACE,"
                               "FOREIGN KEY(batch_id) REFERENCES batch(id)  ON DELETE CASCADE ON UPDATE CASCADE)");
        qDebug() << query.exec("CREATE TABLE IF NOT EXISTS attendance(id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                              "student_id INTEGER,date TEXT,presence INT,"
+                              "student_id INTEGER,"
+                              "date TEXT,"
+                              "presence INT,"
                               "FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE ON UPDATE CASCADE,"
                               "UNIQUE(student_id, date) ON CONFLICT REPLACE)");
-       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS month(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE)");
+       qDebug() << query.exec("CREATE TABLE IF NOT EXISTS month(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                              "name TEXT UNIQUE)");
 
     }
     else {
         qDebug() << "error";
     }
-
 
     monthNames.insert(1,"January");
     monthNames.insert(2,"February");
@@ -53,15 +59,13 @@ bool Dao::addBatch(QString name)
     QSqlQuery query;
     query.prepare("INSERT INTO batch (name) VALUES (:name)");
     query.bindValue(":name", name);
-    if(query.exec())
-       {
-            qDebug() << "add Batch success";
-            flag = true;
-       }
-       else
-       {
-            qDebug() << "add Batch error:" ;
-            flag = false;
+    if(query.exec()){
+        qDebug() << "add Batch success";
+        flag = true;
+    }
+    else{
+        qDebug() << "add Batch error:" ;
+        flag = false;
     }
     return flag;
 }
@@ -69,20 +73,52 @@ bool Dao::addBatch(QString name)
 bool Dao::addStudent(QString name, QString roll, int batch)
 {
     bool flag;
+    if(checkStudentAlreadyInDb(roll,batch)){
+        QSqlQuery query;
+        query.prepare("UPDATE student set name=:name WHERE roll=:roll AND batch_id=:batch_id ");
+        query.bindValue(":name", name);
+        query.bindValue(":roll", roll);
+        query.bindValue(":batch_id", batch);
+        if(query.exec()){
+            qDebug() << "update Student success";
+            flag = true;
+        }
+        else{
+            qDebug() << "update Student error:" ;
+            flag = false;
+        }
+        return flag;
+    }
     QSqlQuery query;
     query.prepare("INSERT INTO student (name,roll,batch_id) VALUES (:name,:roll,:batch_id)");
     query.bindValue(":name", name);
     query.bindValue(":roll", roll);
     query.bindValue(":batch_id", batch);
-    if(query.exec())
-       {
-            qDebug() << "add Student success";
-            flag = true;
-       }
-       else
-       {
-            qDebug() << "add Student error:" ;
-            flag = false;
+    if(query.exec()){
+        qDebug() << "add Student success";
+        flag = true;
+    }
+    else{
+        qDebug() << "add Student error:" ;
+        flag = false;
+    }
+    return flag;
+}
+
+bool Dao::checkStudentAlreadyInDb(QString roll, int batch)
+{
+    bool flag;
+    QSqlQuery query;
+    query.prepare("SELECT * FROM student WHERE roll=:roll AND batch_id=:batch_id ");
+    query.bindValue(":roll",roll);
+    query.bindValue(":batch_id", batch);
+    if(query.exec()){
+        qDebug() << "Student already exists";
+        flag = true;
+    }
+    else{
+        qDebug() << "Student not exists" ;
+        flag = false;
     }
     return flag;
 }
@@ -95,15 +131,13 @@ bool Dao::addAttendance(int studentId, QString date, int presence)
     query.bindValue(":student_id", studentId);
     query.bindValue(":date", date);
     query.bindValue(":presence", presence);
-    if(query.exec())
-       {
-            qDebug() << "add Attendance success";
-            flag = true;
-       }
-       else
-       {
-            qDebug() << "add Attendance error:" ;
-            flag = false;
+    if(query.exec()){
+        qDebug() << "add Attendance success";
+        flag = true;
+    }
+    else{
+        qDebug() << "add Attendance error:" ;
+        flag = false;
     }
     return flag;
 }
@@ -116,13 +150,11 @@ bool Dao::updatePresenceByDateAndStudentId(int studentId, QString date, int pres
     query.bindValue(":student_id", studentId);
     query.bindValue(":date", date);
     query.bindValue(":presence", presence);
-    if(query.exec())
-       {
+    if(query.exec()){
             qDebug() << "update Attendance success";
             flag = true;
-       }
-       else
-       {
+    }
+    else{
             qDebug() << "update Attendance error:" ;
             flag = false;
     }
@@ -136,13 +168,11 @@ bool Dao::updateBatchName(QString oldName, QString newName)
     query.prepare("UPDATE batch set name=:newName WHERE name=:oldName");
     query.bindValue(":newName", newName);
     query.bindValue(":oldName", oldName);
-    if(query.exec())
-       {
+    if(query.exec()){
             qDebug() << "update bactch success";
             flag = true;
-       }
-       else
-       {
+    }
+    else{
             qDebug() << "update update error:" ;
             flag = false;
     }
@@ -201,13 +231,11 @@ QStringList Dao::getAllBatchName()
     QStringList list;
     QSqlQuery query;
     query.prepare("SELECT * FROM batch");
-    if(query.exec())
-       {
+    if(query.exec()){
         while (query.next())
             list.append(query.value(1).toString());
-       }
-       else
-       {
+    }
+    else{
             qDebug() << "getAllBatchName error:" ;
     }
     return list;

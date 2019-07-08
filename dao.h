@@ -32,9 +32,11 @@ public:
     bool saveMonthName(QString monthName);
 private:
     QSqlDatabase db;
-    QList<int> getAllStudentIdByBatchId(int batchId);
     QMap<int,QString> monthNames;
     QMap<int,QString> studentNameAndRoll;
+
+    QList<int> getAllStudentIdByBatchId(int batchId);
+    bool checkStudentAlreadyInDb(QString roll,int batch);
 };
 
 #endif // DAO_H

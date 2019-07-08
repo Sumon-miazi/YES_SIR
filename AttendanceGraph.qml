@@ -97,14 +97,14 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: popup.open()
             }
-
+/*
             PieSeries {
                 id: pieSeries
                 holeSize: .2
                 size: .8
                 PieSlice { label: "Presence"; value: presence; exploded: true}
                 PieSlice { label: "Absence"; value: notPresence }
-            }
+            }*/
             Popup {
                     id: popup
                     x: (attendanceRoot.width - width - 20) / 2
@@ -139,13 +139,13 @@ Rectangle {
                     }
              }
 
-            /*
+
             BarSeries {
                 id: mySeries
-                axisX: BarCategoryAxis { categories: [roll ] }
-                BarSet { label: "Presence"; values: [presence] }
+                axisX: BarCategoryAxis { categories: monthNameBox.currentText}
+                BarSet { label: "Presence"; values: [presence];}
                 BarSet { label: "Absence"; values: [notPresence] }
-            }*/
+            }
         }
     }
 

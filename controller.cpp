@@ -19,13 +19,6 @@ Controller::Controller(QObject *parent) : QObject(parent)
     monthNames.insert(12,"December");
 
     saveMonthName();
-   // dao->getGraphData("37A","July 2019");
-    /*
-    QVector<QList<QString>> data = dao->getGraphData("37A","July 2019");
-    for(auto a: data){
-        for(auto b : a)
-            qDebug() << "b = " << b;
-    }*/
 }
 
 void Controller::putBatchData()
